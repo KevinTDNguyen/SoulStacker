@@ -23,7 +23,7 @@ public class Card { //This class was made to reduce inefficiences and confusion 
         int namePadding, typePadding;
         this.name = name;
         this.rank = rank;
-        this.gameClass = gameClass;
+        this.gameClass = gameClass; // can remove later if not needed
         this.stat = stat;
         this.type = type;
 

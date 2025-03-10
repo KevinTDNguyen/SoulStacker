@@ -3,7 +3,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 public class Main {
-    public static final String PURPLE = "\u001B[45m";
+    public static final String PURPLE = "\u001B[35m";
     public static final String RESET = "\u001B[0m";
     public static final String RED = "\u001B[31m";
 
@@ -12,6 +12,8 @@ public class Main {
 
         Shadow player = new Shadow("Kevin", 100, 25, "sorcerer");
         Shadow comp = new Shadow("Skeilgodr", 100, 25, "berserker");
+        Card emptySlot = new Card("EMPTY", 0, "", 0, "");
+
         introMenu(player);
 
 
@@ -28,7 +30,7 @@ public class Main {
         ArrayList <Card> playerHand = new ArrayList<>();
 
         //test
-        Card[] slots = new Card[] {playerDeck.get(1), playerDeck.get(2)};
+        Card[] slots = new Card[] {playerDeck.get(1), playerDeck.get(2), emptySlot, emptySlot, emptySlot};
 
 
         drawCard(playerHand,playerDeck);
@@ -109,12 +111,14 @@ public class Main {
     }
 
     public static void drawCard(ArrayList<Card> hand, ArrayList<Card> playerDeck) {
-        if(playerDeck.isEmpty()){
+        if(playerDeck.isEmpty())
             System.out.println("There are no more cards left to draw.\n");
-        }else{
+
+        else{
             int index = (int)(0+Math.random() * playerDeck.size());
             hand.add(playerDeck.get(index));
             playerDeck.remove(index);
+
         }
 
     }
@@ -122,7 +126,7 @@ public class Main {
     //some messing around
     public static void printSlots(Card[] cards){
         for (int i = 0; i < 7; i++) {
-            System.out.println(cards[0].visual[i] + " " + cards[1].visual[i]);
+            System.out.println(cards[0].visual[i] + " " + cards[1].visual[i] + " " + cards[2].visual[i] + " " + cards[3].visual[i] + " " + cards[2].visual[i]);
 
         }
     }
