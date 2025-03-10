@@ -3,42 +3,40 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 public class Main {
+    public static final String PURPLE = "\u001B[45m";
+    public static final String RESET = "\u001B[0m";
+    public static final String RED = "\u001B[31m";
+
 
     public static void main(String[] args) {
+
         Shadow player = new Shadow("Kevin", 100, 25, "sorcerer");
         Shadow comp = new Shadow("Skeilgodr", 100, 25, "berserker");
-
-        //examples of how to setup different objects using the classes i modified/created - kevin
-        WeaponCard dagger = new WeaponCard("Dagger", 1, 1, "Weapon");
-        WeaponCard hammer = new WeaponCard("Hammer", 1, 2, "Weapon");
-        WeaponCard sKnuckles = new WeaponCard("S Knuckles", 2, 4, "Weapon");
-        WeaponCard broadsword = new WeaponCard("Broadsword", 3, 7, "Weapon");
-        ArmourCard rags = new ArmourCard("Rags", 1, 1, "Armour");
-        HelmCard greatHelm = new HelmCard("Great Helm", 3, 6, "Helmet");
+        introMenu(player);
 
 
-        //DECK OF CARD OBJECTS --> WeaponCard, HelmCard and ArmourCard count as Card class because cardClass is it's super class (parent class)
-        ArrayList <Card> deck = new ArrayList<>();
+        //playerDeck OF CARD OBJECTS --> WeaponCard, HelmCard and ArmourCard count as Card class because cardClass is it's super class (parent class)
+        ArrayList <Card> playerDeck = new ArrayList<>();
+        // Adding objects to player deck. I changed it from the last one
+        playerDeck.add(new WeaponCard("Dagger", 1, "sorcerer",1, "Weapon"));
+        playerDeck.add(new WeaponCard("Nunchuks", 2, "sorcerer",4, "Weapon"));
+        playerDeck.add(new WeaponCard("Bo Staff", 3, "sorcerer",6, "Weapon"));
+        playerDeck.add(new WeaponCard("Steel Claw", 4, "sorcerer",9, "Weapon"));
+        playerDeck.add(new ArmourCard("Robe", 1, "sorcerer",1, "Armour"));
+        playerDeck.add(new HelmCard("Snake Mask", 2, "sorcerer",4, "Helmet"));
+        playerDeck.add(new HelmCard("Brass Helmet", 1, "sorcerer",2, "Helmet"));
         ArrayList <Card> playerHand = new ArrayList<>();
 
         //test
-        Card[] slots = new Card[] {dagger, rags};
-
-        //Adding objects to deck
-        deck.add(dagger);
-        deck.add(greatHelm);
-        deck.add(hammer);
-        deck.add(sKnuckles);
-        deck.add(broadsword);
-        deck.add(rags);
+        Card[] slots = new Card[] {playerDeck.get(1), playerDeck.get(2)};
 
 
-        drawCard(playerHand,deck);
+        drawCard(playerHand,playerDeck);
         System.out.println(playerHand.get(0).name);
         System.out.println();
 
-        for (int i = 0; i < deck.size(); i++) {
-            System.out.println(deck.get(i).name);
+        for (int i = 0; i < playerDeck.size(); i++) {
+            System.out.println(playerDeck.get(i).name);
         }
 
         printSlots(slots);
@@ -70,7 +68,7 @@ public class Main {
     public static void introMenu(Shadow player){
         Scanner scanS = new Scanner(System.in);
         String insAns;
-        System.out.println("\n" +
+        System.out.println(RED + "\n" +
                 "   ▄████████  ▄██████▄  ███    █▄   ▄█               ▄████████     ███        ▄████████  ▄████████    ▄█   ▄█▄    ▄████████    ▄████████ \n" +
                 "  ███    ███ ███    ███ ███    ███ ███              ███    ███ ▀█████████▄   ███    ███ ███    ███   ███ ▄███▀   ███    ███   ███    ███ \n" +
                 "  ███    █▀  ███    ███ ███    ███ ███              ███    █▀     ▀███▀▀██   ███    ███ ███    █▀    ███▐██▀     ███    █▀    ███    ███ \n" +
@@ -79,7 +77,7 @@ public class Main {
                 "         ███ ███    ███ ███    ███ ███                     ███     ███       ███    ███ ███    █▄    ███▐██▄     ███    █▄  ▀███████████ \n" +
                 "   ▄█    ███ ███    ███ ███    ███ ███▌    ▄         ▄█    ███     ███       ███    ███ ███    ███   ███ ▀███▄   ███    ███   ███    ███ \n" +
                 " ▄████████▀   ▀██████▀  ████████▀  █████▄▄██       ▄████████▀     ▄████▀     ███    █▀  ████████▀    ███   ▀█▀   ██████████   ███    ███ \n" +
-                "                                   ▀                                                                 ▀                        ███    ███ \n");
+                "                                   ▀                                                                 ▀                        ███    ███ \n" + RESET);
 
         while (true){
             System.out.print("\nWould you like to read the tutorial? (Y/N): ");
@@ -110,10 +108,14 @@ public class Main {
         System.out.println("TUTORIAL...");
     }
 
-    public static void drawCard(ArrayList<Card> hand, ArrayList<Card> deck) {
-        int index = (int)(0+Math.random() * deck.size());
-        hand.add(deck.get(index));
-        deck.remove(index);
+    public static void drawCard(ArrayList<Card> hand, ArrayList<Card> playerDeck) {
+        if(playerDeck.isEmpty()){
+            System.out.println("There are no more cards left to draw.\n");
+        }else{
+            int index = (int)(0+Math.random() * playerDeck.size());
+            hand.add(playerDeck.get(index));
+            playerDeck.remove(index);
+        }
 
     }
 

@@ -1,9 +1,14 @@
 public class Card { //This class was made to reduce inefficiences and confusion (all methods shared by all card classes should be created in here)
     String name, type, typeText;
+    String gameClass;
     private String leftPadding;
     private String rightPadding;
     String[] visual;
     int rank, stat;
+    public static final String PURPLE = "\u001B[35m";
+    public static final String RESET = "\u001B[0m";
+    public static final String RED = "\u001B[31m";
+
 
 
 
@@ -13,12 +18,12 @@ public class Card { //This class was made to reduce inefficiences and confusion 
     The reason i made this is due to the reason stated above, it will be very inefficient to code the same constructor 3 - 4 times for all the card
     types. There will be more explanation on the armour card.
      */
-    public Card(String name, int rank, int stat, String type){
+    public Card(String name, int rank, String gameClass ,int stat, String type){
         String centeredNameText, centeredTypeText;
         int namePadding, typePadding;
-
         this.name = name;
         this.rank = rank;
+        this.gameClass = gameClass;
         this.stat = stat;
         this.type = type;
 
@@ -37,11 +42,11 @@ public class Card { //This class was made to reduce inefficiences and confusion 
         //initializes what the card's visual looks like
         this.visual = new String[]{
                 "┌──────────┐",
-                "│"+this.rank+"         │",
+                "│"+RED+this.rank+RESET+"         │",
                 "│          │",//space length = 11
                 "│"+centeredNameText +"│",
                 "│          │",
-                "│" +centeredTypeText+"│",
+                "│" +PURPLE + centeredTypeText+ RESET+"│",
                 "└──────────┘"
         };
 
