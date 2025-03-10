@@ -6,13 +6,64 @@ public class Main {
     public static final String PURPLE = "\u001B[35m";
     public static final String RESET = "\u001B[0m";
     public static final String RED = "\u001B[31m";
+    static ArrayList <Card> berserkerDeck = new ArrayList<>();
+    static ArrayList <Card> sorcererDeck = new ArrayList<>();
+    public static void init_sorcerer(){
+        //Weapons
+        sorcererDeck.add(new WeaponCard("Dagger", 1,2, "Weapon"));
+        sorcererDeck.add(new WeaponCard("Dagger", 1,2, "Weapon"));
+        sorcererDeck.add(new WeaponCard("Nunchuks", 2,4, "Weapon"));
+        sorcererDeck.add(new WeaponCard("Nunchuks", 2,4, "Weapon"));
+        sorcererDeck.add(new WeaponCard("Bo Staff", 3,6, "Weapon"));
+        sorcererDeck.add(new WeaponCard("Bo Staff", 3,6, "Weapon"));
+        sorcererDeck.add(new WeaponCard("Steel Claw", 4,9, "Weapon"));
 
+        //Helms
+        sorcererDeck.add(new HelmCard("Brass Helmet", 1,2, "Helmet"));
+        sorcererDeck.add(new HelmCard("Brass Helmet", 1,2, "Helmet"));
+        sorcererDeck.add(new HelmCard("Snake Mask", 2,4, "Helmet"));
+        sorcererDeck.add(new HelmCard("Snake Mask", 2,4, "Helmet"));
+
+        //Armours
+        sorcererDeck.add(new ArmourCard("Robe", 1,1, "Armour"));
+        sorcererDeck.add(new ArmourCard("Robe", 1,1, "Armour"));
+        sorcererDeck.add(new ArmourCard("Old Jacket", 2,4, "Armour"));
+        sorcererDeck.add(new ArmourCard("Old Jacket", 2,4, "Armour"));
+        sorcererDeck.add(new ArmourCard("Gold Cloak", 2,4, "Armour"));
+    }
+
+    public  static void init_berserker(){
+        //Weapons
+        berserkerDeck.add(new WeaponCard("Hammer", 1, 2, "WEAPON"));
+        berserkerDeck.add(new WeaponCard("Hammer", 1, 2, "WEAPON"));
+        berserkerDeck.add(new WeaponCard("Hammer", 1, 2, "WEAPON"));
+        berserkerDeck.add(new WeaponCard("Hammer", 1, 2, "WEAPON"));
+        berserkerDeck.add(new WeaponCard("Hand-Spike", 2, 4, "WEAPON"));
+        berserkerDeck.add(new WeaponCard("Hand-Spike", 2, 4, "WEAPON"));
+        berserkerDeck.add(new WeaponCard("Hand-Spike", 2, 4, "WEAPON"));
+        berserkerDeck.add(new WeaponCard("Broadsword", 3, 7, "WEAPON"));
+        berserkerDeck.add(new WeaponCard("Broadsword", 3, 7, "WEAPON"));
+        berserkerDeck.add(new WeaponCard("Grimm-Axe", 4, 12, "WEAPON"));
+        // Helms
+        berserkerDeck.add(new HelmCard("Iron Bucket", 1, 1, "HELMET"));
+        berserkerDeck.add(new HelmCard("Iron Bucket", 1, 1, "HELMET"));
+        berserkerDeck.add(new HelmCard("Bucket(II)", 2, 3, "HELMET"));
+        berserkerDeck.add(new HelmCard("Bucket(II)", 2, 3, "HELMET"));
+        berserkerDeck.add(new HelmCard("Great Helm", 3, 6, "HELMET"));
+        // Armor
+        berserkerDeck.add(new ArmourCard("Rags", 1, 1, "ARMOUR"));
+        berserkerDeck.add(new ArmourCard("Rags", 1, 1, "ARMOUR"));
+        berserkerDeck.add(new ArmourCard("Carapace", 2, 4, "ARMOUR"));
+        berserkerDeck.add(new ArmourCard("Carapace", 2, 4, "ARMOUR"));
+        berserkerDeck.add(new ArmourCard("Chainmail", 4, 7, "ARMOUR"));
+        berserkerDeck.add(new ArmourCard("Berserker", 4, 12, "ARMOUR"));
+    }
 
     public static void main(String[] args) {
 
         Shadow player = new Shadow("Kevin", 100, 25, "sorcerer");
         Shadow comp = new Shadow("Skeilgodr", 100, 25, "berserker");
-        Card emptySlot = new Card("EMPTY", 0, "", 0, "");
+        //Card emptySlot = new Card("EMPTY", 0, "", 0, "");
 
         introMenu(player);
 
@@ -20,17 +71,17 @@ public class Main {
         //playerDeck OF CARD OBJECTS --> WeaponCard, HelmCard and ArmourCard count as Card class because cardClass is it's super class (parent class)
         ArrayList <Card> playerDeck = new ArrayList<>();
         // Adding objects to player deck. I changed it from the last one
-        playerDeck.add(new WeaponCard("Dagger", 1, "sorcerer",1, "Weapon"));
-        playerDeck.add(new WeaponCard("Nunchuks", 2, "sorcerer",4, "Weapon"));
-        playerDeck.add(new WeaponCard("Bo Staff", 3, "sorcerer",6, "Weapon"));
-        playerDeck.add(new WeaponCard("Steel Claw", 4, "sorcerer",9, "Weapon"));
-        playerDeck.add(new ArmourCard("Robe", 1, "sorcerer",1, "Armour"));
-        playerDeck.add(new HelmCard("Snake Mask", 2, "sorcerer",4, "Helmet"));
-        playerDeck.add(new HelmCard("Brass Helmet", 1, "sorcerer",2, "Helmet"));
+        playerDeck.add(new WeaponCard("Dagger", 1,1, "Weapon"));
+        playerDeck.add(new WeaponCard("Nunchuks", 2,4, "Weapon"));
+        playerDeck.add(new WeaponCard("Bo Staff", 3,6, "Weapon"));
+        playerDeck.add(new WeaponCard("Steel Claw", 4,9, "Weapon"));
+        playerDeck.add(new ArmourCard("Robe", 1,1, "Armour"));
+        playerDeck.add(new HelmCard("Snake Mask", 2,4, "Helmet"));
+        playerDeck.add(new HelmCard("Brass Helmet", 1,2, "Helmet"));
         ArrayList <Card> playerHand = new ArrayList<>();
 
         //test
-        Card[] slots = new Card[] {playerDeck.get(1), playerDeck.get(2), emptySlot, emptySlot, emptySlot};
+        Card[] slots = new Card[] {playerDeck.get(1), playerDeck.get(2)};
 
 
         drawCard(playerHand,playerDeck);
@@ -138,7 +189,7 @@ public class Main {
     //some messing around
     public static void printSlots(Card[] cards){
         for (int i = 0; i < 7; i++) {
-            System.out.println(cards[0].visual[i] + " " + cards[1].visual[i] + " " + cards[2].visual[i] + " " + cards[3].visual[i] + " " + cards[2].visual[i]);
+            System.out.println(cards[0].visual[i] + " " + cards[1].visual[i]);
 
         }
     }
