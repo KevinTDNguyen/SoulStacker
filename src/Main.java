@@ -5,17 +5,24 @@ public class Main {
         Shadow player = new Shadow("Kevin", 100, 25, "sorcerer");
         Shadow comp = new Shadow("Skeilgodr", 100, 25, "berserker");
 
-        //examples of how to setup different objects using the classes i modifiedd/created - kevin
-        WeaponCard dagger = new WeaponCard("Dagger", 1, 5);
-        HelmCard greatHelm = new HelmCard("Great Helm", 3, 6);
-
-
-        introMenu(player);
+        //examples of how to setup different objects using the classes i modified/created - kevin
+        WeaponCard dagger = new WeaponCard("Dagger", 1, 5, "Weapon");
+        HelmCard greatHelm = new HelmCard("Great Helm", 3, 6, "Helmet");
+        System.out.println(dagger.visual[0]);
+        System.out.println(dagger.visual[1]);
+        System.out.println(dagger.visual[2]);
+        System.out.println(dagger.visual[3]);
+        System.out.println(dagger.visual[4]);
+        System.out.println(dagger.visual[5]);
+        System.out.println(dagger.visual[6]);
+        //introMenu(player);
 
         //Examples of how this works, be free to delete once concepts are understood
         System.out.println("Weapon Name: " + dagger.name);
         System.out.println("Rank: " + dagger.rank);
         System.out.println("Damage " + dagger.damage);
+
+
 
     }
 
