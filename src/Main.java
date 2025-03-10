@@ -47,9 +47,6 @@ public class Main {
 
         //Examples of how this works, be free to delete once concepts are understood
 
-
-
-
     }
 
     /**
@@ -96,10 +93,20 @@ public class Main {
 
             System.out.println("ERROR: Input a valid input");
         }
-        clearScreen();
+        System.out.println("-----------------------------------------------------------------------------------");
+        //clearScreen();
 
         System.out.print("What is your name?: ");
         player.name = scanS.nextLine();
+        do {
+            System.out.println("What class do you want to play?(The computer plays the other one)\n* Berserker\n* Sorcerer");
+            player.playerClass = scanS.nextLine();
+            if(!player.playerClass.equalsIgnoreCase("berserker") && !player.playerClass.equalsIgnoreCase("sorcerer")){
+                System.out.println("Not an available Class. Try Again Please.");
+            }
+        }while(!player.playerClass.equalsIgnoreCase("berserker") && !player.playerClass.equalsIgnoreCase("sorcerer"));
+
+
     }
 
     /**
@@ -107,7 +114,12 @@ public class Main {
      * Desc: Displays the game's instructions/tutorial
      */
     public static void tutorial() {
-        System.out.println("TUTORIAL...");
+        System.out.println(RED + "TUTORIAL: " + RESET);
+        System.out.println(PURPLE+"OBJECTIVE:"+ RESET + "\nThe goal is to upgrade your base shadow using other cards, to beat your opponent by taking their health to 0.\n There are 3 types of cards, armor, weapon, and ability cards.\nThe user can place these cards on their base shadow to give the shadow additional defense, attack, health, etc.");
+        System.out.println("-----------------------------------------------------------------------------------");
+        System.out.println(PURPLE+"GAMEPLAY"+ RESET);
+        System.out.println("Both players start with a basic shadow, and 4 additional cards.\nThe player can have 1 helm card 1 armor card, 2 weapon cards, and unlimited ability cards active on their shadow.\nTo upgrade armor or weapons, the active card must be one rank lower of the card you wish to play. \nYou can either draw a card and build your shadow, or attack the opponent and build your shadow.");
+        System.out.println("-----------------------------------------------------------------------------------");
     }
 
     public static void drawCard(ArrayList<Card> hand, ArrayList<Card> playerDeck) {
@@ -131,6 +143,10 @@ public class Main {
         }
     }
 
-
+    public  static void gamePlay(){
+        for(int i =0; i<4; i++){
+            //drawCard(playerDeck);
+        }
+    }
 }
 
