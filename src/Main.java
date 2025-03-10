@@ -3,33 +3,36 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 public class Main {
+    static Scanner scanS = new Scanner(System.in);
+    static Scanner scanN = new Scanner(System.in);
     public static final String PURPLE = "\u001B[35m";
     public static final String RESET = "\u001B[0m";
     public static final String RED = "\u001B[31m";
     static ArrayList <Card> berserkerDeck = new ArrayList<>();
     static ArrayList <Card> sorcererDeck = new ArrayList<>();
+    static ArrayList <Card> playerDeck = new ArrayList<>();
     public static void init_sorcerer(){
         //Weapons
-        sorcererDeck.add(new WeaponCard("Dagger", 1,2, "Weapon"));
-        sorcererDeck.add(new WeaponCard("Dagger", 1,2, "Weapon"));
-        sorcererDeck.add(new WeaponCard("Nunchuks", 2,4, "Weapon"));
-        sorcererDeck.add(new WeaponCard("Nunchuks", 2,4, "Weapon"));
-        sorcererDeck.add(new WeaponCard("Bo Staff", 3,6, "Weapon"));
-        sorcererDeck.add(new WeaponCard("Bo Staff", 3,6, "Weapon"));
-        sorcererDeck.add(new WeaponCard("Steel Claw", 4,9, "Weapon"));
+        sorcererDeck.add(new WeaponCard("Dagger", 1,2, "WEAPON"));
+        sorcererDeck.add(new WeaponCard("Dagger", 1,2, "WEAPON"));
+        sorcererDeck.add(new WeaponCard("Nunchuks", 2,4, "WEAPON"));
+        sorcererDeck.add(new WeaponCard("Nunchuks", 2,4, "WEAPON"));
+        sorcererDeck.add(new WeaponCard("Bo Staff", 3,6, "WEAPON"));
+        sorcererDeck.add(new WeaponCard("Bo Staff", 3,6, "WEAPON"));
+        sorcererDeck.add(new WeaponCard("Steel Claw", 4,9, "WEAPON"));
 
         //Helms
-        sorcererDeck.add(new HelmCard("Brass Helmet", 1,2, "Helmet"));
-        sorcererDeck.add(new HelmCard("Brass Helmet", 1,2, "Helmet"));
-        sorcererDeck.add(new HelmCard("Snake Mask", 2,4, "Helmet"));
-        sorcererDeck.add(new HelmCard("Snake Mask", 2,4, "Helmet"));
+        sorcererDeck.add(new HelmCard("Brass Helmet", 1,2, "HELMET"));
+        sorcererDeck.add(new HelmCard("Brass Helmet", 1,2, "HELMET"));
+        sorcererDeck.add(new HelmCard("Snake Mask", 2,4, "HELMET"));
+        sorcererDeck.add(new HelmCard("Snake Mask", 2,4, "HELMET"));
 
         //Armours
-        sorcererDeck.add(new ArmourCard("Robe", 1,1, "Armour"));
-        sorcererDeck.add(new ArmourCard("Robe", 1,1, "Armour"));
-        sorcererDeck.add(new ArmourCard("Old Jacket", 2,4, "Armour"));
-        sorcererDeck.add(new ArmourCard("Old Jacket", 2,4, "Armour"));
-        sorcererDeck.add(new ArmourCard("Gold Cloak", 2,4, "Armour"));
+        sorcererDeck.add(new ArmourCard("Robe", 1,1, "ARMOUR"));
+        sorcererDeck.add(new ArmourCard("Robe", 1,1, "ARMOUR"));
+        sorcererDeck.add(new ArmourCard("Old Jacket", 2,4, "ARMOUR"));
+        sorcererDeck.add(new ArmourCard("Old Jacket", 2,4, "ARMOUR"));
+        sorcererDeck.add(new ArmourCard("Gold Cloak", 2,4, "ARMOUR"));
     }
 
     public  static void init_berserker(){
@@ -61,42 +64,32 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Shadow player = new Shadow("Kevin", 100, 25, "sorcerer");
-        Shadow comp = new Shadow("Skeilgodr", 100, 25, "berserker");
-        //Card emptySlot = new Card("EMPTY", 0, "", 0, "");
+        Shadow player = new Shadow("Kevin", 100, 25, "");
+        Shadow comp = new Shadow("Skeilgodr", 100, 25, "");
 
+        //initializes the empty card slots
+        Card emptyWeapon = new Card("EMPTY", 0, 0, "WEAPON");
+        Card emptyHelm = new Card("EMPTY", 0, 0, "HELMET");
+        Card emptyArmour = new Card("EMPTY", 0, 0, "ARMOUR");
+
+        init_berserker();
+        init_sorcerer();
         introMenu(player);
 
 
-        //playerDeck OF CARD OBJECTS --> WeaponCard, HelmCard and ArmourCard count as Card class because cardClass is it's super class (parent class)
-        ArrayList <Card> playerDeck = new ArrayList<>();
+
+
         // Adding objects to player deck. I changed it from the last one
-        playerDeck.add(new WeaponCard("Dagger", 1,1, "Weapon"));
-        playerDeck.add(new WeaponCard("Nunchuks", 2,4, "Weapon"));
-        playerDeck.add(new WeaponCard("Bo Staff", 3,6, "Weapon"));
-        playerDeck.add(new WeaponCard("Steel Claw", 4,9, "Weapon"));
-        playerDeck.add(new ArmourCard("Robe", 1,1, "Armour"));
-        playerDeck.add(new HelmCard("Snake Mask", 2,4, "Helmet"));
-        playerDeck.add(new HelmCard("Brass Helmet", 1,2, "Helmet"));
         ArrayList <Card> playerHand = new ArrayList<>();
 
         //test
-        Card[] slots = new Card[] {playerDeck.get(1), playerDeck.get(2)};
-
-
-        drawCard(playerHand,playerDeck);
-        System.out.println(playerHand.get(0).name);
-        System.out.println();
+        Card[] slots = new Card[] {emptyWeapon, emptyWeapon, emptyHelm, emptyArmour};
 
         for (int i = 0; i < playerDeck.size(); i++) {
             System.out.println(playerDeck.get(i).name);
         }
 
         printSlots(slots);
-
-        //introMenu(player);
-
-        //Examples of how this works, be free to delete once concepts are understood
 
     }
 
@@ -116,7 +109,6 @@ public class Main {
      * @param player
      */
     public static void introMenu(Shadow player){
-        Scanner scanS = new Scanner(System.in);
         String insAns;
         System.out.println(RED + "\n" +
                 "   ▄████████  ▄██████▄  ███    █▄   ▄█               ▄████████     ███        ▄████████  ▄████████    ▄█   ▄█▄    ▄████████    ▄████████ \n" +
@@ -144,18 +136,24 @@ public class Main {
 
             System.out.println("ERROR: Input a valid input");
         }
-        System.out.println("-----------------------------------------------------------------------------------");
-        //clearScreen();
 
+        System.out.println("-----------------------------------------------------------------------------------");
         System.out.print("What is your name?: ");
         player.name = scanS.nextLine();
         do {
             System.out.println("What class do you want to play?(The computer plays the other one)\n* Berserker\n* Sorcerer");
             player.playerClass = scanS.nextLine();
-            if(!player.playerClass.equalsIgnoreCase("berserker") && !player.playerClass.equalsIgnoreCase("sorcerer")){
+
+            if(!player.playerClass.equalsIgnoreCase("berserker") && !player.playerClass.equalsIgnoreCase("sorcerer"))
                 System.out.println("Not an available Class. Try Again Please.");
-            }
+
         }while(!player.playerClass.equalsIgnoreCase("berserker") && !player.playerClass.equalsIgnoreCase("sorcerer"));
+
+        if (player.playerClass.equalsIgnoreCase("berserker"))
+            playerDeck = berserkerDeck;
+
+        else
+            playerDeck = sorcererDeck;
 
 
     }
@@ -189,7 +187,7 @@ public class Main {
     //some messing around
     public static void printSlots(Card[] cards){
         for (int i = 0; i < 7; i++) {
-            System.out.println(cards[0].visual[i] + " " + cards[1].visual[i]);
+            System.out.println(cards[0].visual[i] + " " + cards[1].visual[i] + " " + cards[2].visual[i] + " " + cards[3].visual[i]);
 
         }
     }
@@ -201,3 +199,15 @@ public class Main {
     }
 }
 
+/*
+Hand Menu:
+1. Weapons
+2. Helmets
+3. Armour
+
+clearScreen()
+
+[WEAPONS]
+-Broadsword (III) [+2 ATK]
+-Dagger (I) [+1 ATK]
+ */
