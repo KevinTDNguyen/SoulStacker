@@ -1,7 +1,5 @@
 public class Card { //This class was made to reduce inefficiences and confusion (all methods shared by all card classes should be created in here)
     String name, type, typeText;
-    private String leftPadding;
-    private String rightPadding;
     String[] visual;
     int rank, stat;
     public static final String PURPLE = "\u001B[35m";

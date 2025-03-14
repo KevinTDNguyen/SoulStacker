@@ -1,5 +1,3 @@
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 public class Main {
@@ -11,7 +9,8 @@ public class Main {
     static ArrayList <Card> berserkerDeck = new ArrayList<>();
     static ArrayList <Card> sorcererDeck = new ArrayList<>();
     static ArrayList <Card> playerDeck = new ArrayList<>();
-    static ArrayList <Card> playerHand = new ArrayList<>();
+    static Card[] playerSlots = new Card[4];
+
     public static void init_sorcerer(){
         //Weapons
         sorcererDeck.add(new WeaponCard("Dagger", 1,2, "WEAPON"));
@@ -49,10 +48,10 @@ public class Main {
         berserkerDeck.add(new WeaponCard("Broadsword", 3, 7, "WEAPON"));
         berserkerDeck.add(new WeaponCard("Grimm-Axe", 4, 12, "WEAPON"));
         // Helms
-        berserkerDeck.add(new HelmCard("Iron Bucket", 1, 1, "HELMET"));
-        berserkerDeck.add(new HelmCard("Iron Bucket", 1, 1, "HELMET"));
-        berserkerDeck.add(new HelmCard("Bucket(II)", 2, 3, "HELMET"));
-        berserkerDeck.add(new HelmCard("Bucket(II)", 2, 3, "HELMET"));
+        berserkerDeck.add(new HelmCard("Old Bucket", 1, 1, "HELMET"));
+        berserkerDeck.add(new HelmCard("Old Bucket", 1, 1, "HELMET"));
+        berserkerDeck.add(new HelmCard("New Bucket", 2, 3, "HELMET"));
+        berserkerDeck.add(new HelmCard("New Bucket", 2, 3, "HELMET"));
         berserkerDeck.add(new HelmCard("Great Helm", 3, 6, "HELMET"));
         // Armor
         berserkerDeck.add(new ArmourCard("Rags", 1, 1, "ARMOUR"));
@@ -65,8 +64,8 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Shadow player = new Shadow("Kevin", 100, 25, "");
-        Shadow comp = new Shadow("Skeilgodr", 100, 25, "");
+        Shadow player = new Shadow("Kevin", 50, 1, 0,"");
+        Shadow comp = new Shadow("Skeilgodr", 50, 1, 0, "");
 
         //initializes the empty card slots
         Card emptyWeapon = new Card("EMPTY", 0, 0, "WEAPON");
@@ -75,23 +74,22 @@ public class Main {
 
         init_berserker();
         init_sorcerer();
+
+        ArrayList <Card> playerHand = new ArrayList<>();
+        playerSlots[0] = emptyWeapon;
+        playerSlots[1] = emptyWeapon;
+        playerSlots[2] = emptyHelm;
+        playerSlots[3] = emptyArmour;
+
+        //Card[] playerSlots = new Card[] {emptyWeapon, emptyWeapon, emptyHelm, emptyArmour};
+
         introMenu(player);
-        gamePlay(player, comp);
+        gamePlay(player, comp, playerHand);
 
-
-
-        // Adding objects to player deck. I changed it from the last one
-
-
-        //test
-        Card[] slots = new Card[] {emptyWeapon, emptyWeapon, emptyHelm, emptyArmour};
-
-        for (int i = 0; i < playerDeck.size(); i++) {
-            System.out.println(playerDeck.get(i).name);
+        //displaySlots(slots);
+        while (true) {
+            buildSlot(playerHand);
         }
-
-        printSlots(slots);
-
     }
 
     /**
@@ -137,6 +135,7 @@ public class Main {
 
             System.out.println("ERROR: Input a valid input");
         }
+        clearScreen();
 
     }
 
@@ -166,15 +165,14 @@ public class Main {
 
     }
 
-    //some messing around
-    public static void printSlots(Card[] cards){
+    public static void displaySlots(Card[] cards){
         for (int i = 0; i < 7; i++) {
             System.out.println(cards[0].visual[i] + " " + cards[1].visual[i] + " " + cards[2].visual[i] + " " + cards[3].visual[i]);
 
         }
     }
 
-    public  static void gamePlay(Shadow player, Shadow comp){
+    public static void gamePlay(Shadow player, Shadow comp, ArrayList <Card> playerHand) {
         System.out.println("-----------------------------------------------------------------------------------");
         System.out.print("What is your name?: ");
         player.name = scanS.nextLine();
@@ -182,25 +180,193 @@ public class Main {
             System.out.println("What class do you want to play?(The computer plays the other one)\n* Berserker\n* Sorcerer");
             player.playerClass = scanS.nextLine();
 
-            if(!player.playerClass.equalsIgnoreCase("berserker") && !player.playerClass.equalsIgnoreCase("sorcerer"))
+            if (!player.playerClass.equalsIgnoreCase("berserker") && !player.playerClass.equalsIgnoreCase("sorcerer"))
                 System.out.println("Not an available Class. Try Again Please.");
 
-        }while(!player.playerClass.equalsIgnoreCase("berserker") && !player.playerClass.equalsIgnoreCase("sorcerer"));
+        } while (!player.playerClass.equalsIgnoreCase("berserker") && !player.playerClass.equalsIgnoreCase("sorcerer"));
 
         if (player.playerClass.equalsIgnoreCase("berserker"))
             playerDeck = berserkerDeck;
 
         else
             playerDeck = sorcererDeck;
-        //-----------------------------------
+
+        clearScreen();
+
         // Drawing the first 4 cards.
-        System.out.println("DRAWING FIRST 4 CARDS!");
-        System.out.format("%20s %2s %15s %2s %15s %2s %15s", "NAME", "|", "RANK", "|", "STAT", "|", "CARD-TYPE");
-        for(int i = 0; i<4; i++){
+        System.out.println("DRAWING FIRST 4 CARDS!\n");
+        System.out.format("%-20s %-2s %-15s %-2s %-15s %-2s %-15s", "NAME", "|", "RANK", "|", "STAT", "|", "CARD-TYPE");
+        for (int i = 0; i < 4; i++) {
             //To Add Animation=> Thread.sleep(80);
             drawCard(playerHand, playerDeck);
-            System.out.println("");
-            System.out.format("%20s %2s %15s %2s %15s %2s %15s", playerHand.get(i).name, "|", playerHand.get(i).rank, "|", playerHand.get(i).stat, "|", playerHand.get(i).type);
+            System.out.println();
+            System.out.format("%-20s %-2s %-15s %-2s %-15s %-2s %-15s", playerHand.get(i).name, "|", playerHand.get(i).rank, "|", playerHand.get(i).stat, "|", playerHand.get(i).type);
+        }
+        System.out.println("\n");
+    }
+
+    public static void buildSlot(ArrayList <Card> playerHand){
+        int catAns, selectCard, buildChoice;
+        String cardType, statType, returnMenu;
+        ArrayList <Card> typeCardArray = new ArrayList<>();
+
+        while(true) {
+            clearScreen();
+            typeCardArray.clear();
+            catAns = buildSlotMenu1();
+            switch (catAns) {
+                case 1:
+                    cardType = "WEAPON";
+                    statType = "ATK";
+                    break;
+
+                case 2:
+                    cardType = "HELMET";
+                    statType = "DEF";
+                    break;
+
+                default:
+                    cardType = "ARMOUR";
+                    statType = "DEF";
+                    break;
+            }
+            clearScreen();
+
+            System.out.println("Select one of the following cards to use in your " + cardType + " slot(s)"
+                    + "\n[To go back to category selection enter '0']"
+                    + "\n\nYOUR " + cardType + " CARDS: ");
+
+
+            for (int i = 0; i < playerHand.size(); i++) {
+                if (playerHand.get(i).type.equals(cardType))
+                    typeCardArray.add(playerHand.get(i));
+
+            }
+
+            for (int i = 0; i < typeCardArray.size(); i++)
+                System.out.println((i+1) + ". " + typeCardArray.get(i).name + " (" + convNumtoRoman(typeCardArray.get(i).rank) + ") [" + typeCardArray.get(i).stat + " " + statType + "]");
+
+
+            while (true){
+                selectCard = scanN.nextInt();
+                if (selectCard < 0)
+                    System.out.println("ERROR: Enter a non negative integer");
+
+                else if (selectCard > typeCardArray.size())
+                    System.out.println("ERROR: Your input is out of range");
+
+                else
+                    break;
+            }
+
+
+            if(selectCard > 0){
+                selectCard -= 1;
+                System.out.println("HERE ARE YOUR CURRENT SLOTS:");
+                displaySlots(playerSlots);
+                System.out.println("Which " + cardType + " slot would you like to build?");
+
+                while (true) {
+                    buildChoice = scanN.nextInt() - 1;
+                    if (buildChoice < 0 || buildChoice > 3)
+                        System.out.println("ERROR: INPUT VALID RANGE");
+
+                    else if(!cardType.equals(playerSlots[buildChoice].type))
+                        System.out.println("ERROR: INCOMPATIBLE CARD TYPE");
+
+                    else if (typeCardArray.get(selectCard).rank < playerSlots[buildChoice].rank)
+                        System.out.println("ERROR: You cannot build a lower level card onto a higher level card");
+
+                    else if ((typeCardArray.get(selectCard).rank - playerSlots[buildChoice].rank) > 1)
+                        System.out.println("ERROR: Your selected card is too high level to build onto your desired slot");
+
+                    else {
+                        returnMenu = "n";
+                        break;
+                    }
+
+                    System.out.print("Would you like to return to your HAND Menu? if not you will be prompted to try again. (Y/N): ");
+                    returnMenu = scanS.nextLine();
+
+                    if (returnMenu.equalsIgnoreCase("y"))
+                        break;
+
+                }
+
+                if (returnMenu.equalsIgnoreCase("n"))
+                    break;
+
+            }
+
+        }
+
+        clearScreen();
+        System.out.println("BUILDING...");
+
+        playerHand.remove(typeCardArray.get(selectCard));
+        if (!playerSlots[buildChoice].name.equals("EMPTY"))
+            playerHand.add(playerSlots[buildChoice]);
+
+
+
+
+        playerSlots[buildChoice] = typeCardArray.get(selectCard);
+
+        System.out.println("\nNEW UPGRADED SLOTS:");
+        displaySlots(playerSlots);
+        System.out.print("PRESS ENTER TO CONTINUE");
+        returnMenu = scanS.nextLine();
+
+
+    }
+
+    public static int buildSlotMenu1() {
+        int catAns;
+
+        while (true){
+            System.out.println("\t\tPLAYER HAND:" +
+                    "\n1.Weapons | 2.HELMET | 3.ARMOUR");
+
+            System.out.println("\nENTER CATEGORY TO ACCESS (NUM): ");
+            catAns = scanN.nextInt();
+
+            if(catAns < 1 || catAns > 3) {
+                System.out.println("ERROR: Please enter a valid input\n\n");
+                continue;
+            }
+
+            break;
+        }
+
+        return catAns;
+    }
+
+    public static String convNumtoRoman(int num){
+        switch (num){
+            case 1:
+                return "I";
+
+            case 2:
+                return "II";
+
+            default:
+                return "III";
         }
     }
+
 }
+
+/*
+Hand Menu:
+1. Weapons
+2. Helmets
+3. Armour
+
+clearScreen()
+
+[WEAPONS]
+-Broadsword (III) [+2 ATK]
+-Dagger (I) [+1 ATK]
+ */
+
+//(RANK 1)
