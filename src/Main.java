@@ -75,6 +75,7 @@ public class Main {
         init_berserker();
         init_sorcerer();
         introMenu(player);
+        gamePlay(player, comp);
 
 
 
@@ -137,23 +138,7 @@ public class Main {
             System.out.println("ERROR: Input a valid input");
         }
 
-        System.out.println("-----------------------------------------------------------------------------------");
-        System.out.print("What is your name?: ");
-        player.name = scanS.nextLine();
-        do {
-            System.out.println("What class do you want to play?(The computer plays the other one)\n* Berserker\n* Sorcerer");
-            player.playerClass = scanS.nextLine();
 
-            if(!player.playerClass.equalsIgnoreCase("berserker") && !player.playerClass.equalsIgnoreCase("sorcerer"))
-                System.out.println("Not an available Class. Try Again Please.");
-
-        }while(!player.playerClass.equalsIgnoreCase("berserker") && !player.playerClass.equalsIgnoreCase("sorcerer"));
-
-        if (player.playerClass.equalsIgnoreCase("berserker"))
-            playerDeck = berserkerDeck;
-
-        else
-            playerDeck = sorcererDeck;
 
 
     }
@@ -192,10 +177,25 @@ public class Main {
         }
     }
 
-    public  static void gamePlay(){
-        for(int i =0; i<4; i++){
-            //drawCard(playerDeck);
-        }
+    public  static void gamePlay(Shadow player, Shadow comp){
+        System.out.println("-----------------------------------------------------------------------------------");
+        System.out.print("What is your name?: ");
+        player.name = scanS.nextLine();
+        do {
+            System.out.println("What class do you want to play?(The computer plays the other one)\n* Berserker\n* Sorcerer");
+            player.playerClass = scanS.nextLine();
+
+            if(!player.playerClass.equalsIgnoreCase("berserker") && !player.playerClass.equalsIgnoreCase("sorcerer"))
+                System.out.println("Not an available Class. Try Again Please.");
+
+        }while(!player.playerClass.equalsIgnoreCase("berserker") && !player.playerClass.equalsIgnoreCase("sorcerer"));
+
+        if (player.playerClass.equalsIgnoreCase("berserker"))
+            playerDeck = berserkerDeck;
+
+        else
+            playerDeck = sorcererDeck;
+
     }
 }
 
