@@ -11,6 +11,7 @@ public class Main {
     static ArrayList <Card> berserkerDeck = new ArrayList<>();
     static ArrayList <Card> sorcererDeck = new ArrayList<>();
     static ArrayList <Card> playerDeck = new ArrayList<>();
+    static ArrayList <Card> playerHand = new ArrayList<>();
     public static void init_sorcerer(){
         //Weapons
         sorcererDeck.add(new WeaponCard("Dagger", 1,2, "WEAPON"));
@@ -77,11 +78,10 @@ public class Main {
         introMenu(player);
         gamePlay(player, comp);
 
-        System.out.println("hello");
 
 
         // Adding objects to player deck. I changed it from the last one
-        ArrayList <Card> playerHand = new ArrayList<>();
+
 
         //test
         Card[] slots = new Card[] {emptyWeapon, emptyWeapon, emptyHelm, emptyArmour};
@@ -138,9 +138,6 @@ public class Main {
             System.out.println("ERROR: Input a valid input");
         }
 
-
-
-
     }
 
     /**
@@ -195,19 +192,15 @@ public class Main {
 
         else
             playerDeck = sorcererDeck;
-
+        //-----------------------------------
+        // Drawing the first 4 cards.
+        System.out.println("DRAWING FIRST 4 CARDS!");
+        System.out.format("%20s %2s %15s %2s %15s %2s %15s", "NAME", "|", "RANK", "|", "STAT", "|", "CARD-TYPE");
+        for(int i = 0; i<4; i++){
+            //To Add Animation=> Thread.sleep(80);
+            drawCard(playerHand, playerDeck);
+            System.out.println("");
+            System.out.format("%20s %2s %15s %2s %15s %2s %15s", playerHand.get(i).name, "|", playerHand.get(i).rank, "|", playerHand.get(i).stat, "|", playerHand.get(i).type);
+        }
     }
 }
-
-/*
-Hand Menu:
-1. Weapons
-2. Helmets
-3. Armour
-
-clearScreen()
-
-[WEAPONS]
--Broadsword (III) [+2 ATK]
--Dagger (I) [+1 ATK]
- */
