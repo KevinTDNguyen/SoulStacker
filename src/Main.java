@@ -325,7 +325,7 @@ public class Main {
 
         while (true){
             System.out.println("\t\tPLAYER HAND:" +
-                    "\n1.Weapons | 2.HELMET | 3.ARMOUR");
+                    "\n1.WEAPON | 2.HELMET | 3.ARMOUR");
 
             System.out.println("\nENTER CATEGORY TO ACCESS (NUM): ");
             catAns = scanN.nextInt();
