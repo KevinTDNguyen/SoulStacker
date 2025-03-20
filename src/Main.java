@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 public class Main {
+    //Global Declarations
     static Scanner scanS = new Scanner(System.in);
     static Scanner scanN = new Scanner(System.in);
     public static final String PURPLE = "\u001B[35m";
@@ -11,6 +12,7 @@ public class Main {
     static ArrayList <Card> playerDeck = new ArrayList<>();
     static Card[] playerSlots = new Card[4];
 
+    //Initializing Sorcerer Deck
     public static void init_sorcerer(){
         //Weapons
         sorcererDeck.add(new WeaponCard("Dagger", 1,2, "WEAPON"));
@@ -35,6 +37,7 @@ public class Main {
         sorcererDeck.add(new ArmourCard("Gold Cloak", 2,4, "ARMOUR"));
     }
 
+    //Initializing Berserker Deck
     public  static void init_berserker(){
         //Weapons
         berserkerDeck.add(new WeaponCard("Hammer", 1, 2, "WEAPON"));
@@ -63,7 +66,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-
+        //Setting up player and computer objects
         Shadow player = new Shadow("Kevin", 50, 1, 0,"");
         Shadow comp = new Shadow("Skeilgodr", 50, 1, 0, "");
 
@@ -76,12 +79,12 @@ public class Main {
         init_sorcerer();
 
         ArrayList <Card> playerHand = new ArrayList<>();
+
+        //Begins the playerDeck with empty cards
         playerSlots[0] = emptyWeapon;
         playerSlots[1] = emptyWeapon;
         playerSlots[2] = emptyHelm;
         playerSlots[3] = emptyArmour;
-
-        //Card[] playerSlots = new Card[] {emptyWeapon, emptyWeapon, emptyHelm, emptyArmour};
 
         introMenu(player);
         gamePlay(player, comp, playerHand);
@@ -206,16 +209,16 @@ public class Main {
     }
 
     public static void buildSlot(ArrayList <Card> playerHand){
-        int catAns, selectCard, buildChoice;
+        int catAns, selectCard, buildChoice; //cat ans is category/type of card answer
         String cardType, statType, returnMenu;
         ArrayList <Card> typeCardArray = new ArrayList<>();
 
         while(true) {
             clearScreen();
-            typeCardArray.clear();
-            catAns = buildSlotMenu1();
+            typeCardArray.clear(); // sets up the ArrayList that will be used to display cards in a certain type
+            catAns = buildSlotMenu1(); // grabs the card type desired
             switch (catAns) {
-                case 1:
+                case 1: // sets the necessary variables for menu display
                     cardType = "WEAPON";
                     statType = "ATK";
                     break;
@@ -232,22 +235,26 @@ public class Main {
             }
             clearScreen();
 
+            //displays menu at top
             System.out.println("Select one of the following cards to use in your " + cardType + " slot(s)"
                     + "\n[To go back to category selection enter '0']"
                     + "\n\nYOUR " + cardType + " CARDS: ");
 
 
+            //adds the correct type of cards into the typeCardArray
             for (int i = 0; i < playerHand.size(); i++) {
                 if (playerHand.get(i).type.equals(cardType))
                     typeCardArray.add(playerHand.get(i));
 
             }
 
+            //Displays Name (Rank) [stat]
             for (int i = 0; i < typeCardArray.size(); i++)
                 System.out.println((i+1) + ". " + typeCardArray.get(i).name + " (" + convNumtoRoman(typeCardArray.get(i).rank) + ") [" + typeCardArray.get(i).stat + " " + statType + "]");
 
-
+            //Error handling
             while (true){
+                //Gets the card you want to select
                 selectCard = scanN.nextInt();
                 if (selectCard < 0)
                     System.out.println("ERROR: Enter a non negative integer");
@@ -260,14 +267,16 @@ public class Main {
             }
 
 
-            if(selectCard > 0){
+            if(selectCard > 0){ // 0 is the input required to return back to the menu so this ensures that further actions will be done
                 selectCard -= 1;
                 System.out.println("HERE ARE YOUR CURRENT SLOTS:");
-                displaySlots(playerSlots);
+                displaySlots(playerSlots); // displays current slots
                 System.out.println("Which " + cardType + " slot would you like to build?");
 
                 while (true) {
-                    buildChoice = scanN.nextInt() - 1;
+                    buildChoice = scanN.nextInt() - 1; // this will find the index of the card slot you want to upgrade
+
+                    //ERROR HANDLING
                     if (buildChoice < 0 || buildChoice > 3)
                         System.out.println("ERROR: INPUT VALID RANGE");
 
@@ -281,18 +290,20 @@ public class Main {
                         System.out.println("ERROR: Your selected card is too high level to build onto your desired slot");
 
                     else {
-                        returnMenu = "n";
+                        returnMenu = "n"; // makes it so you do not return to the main menu and breaks out the inner while statement
                         break;
                     }
 
+                    //if the break statement is not reach that means there was an error with the user input and they will be asked if they want to go back to menu
                     System.out.print("Would you like to return to your HAND Menu? if not you will be prompted to try again. (Y/N): ");
                     returnMenu = scanS.nextLine();
 
+                    //user conditions to go back to menu
                     if (returnMenu.equalsIgnoreCase("y"))
                         break;
 
                 }
-
+                //Breaks out the outer while statement and completes the upgrade action
                 if (returnMenu.equalsIgnoreCase("n"))
                     break;
 
@@ -304,11 +315,7 @@ public class Main {
         System.out.println("BUILDING...");
 
         playerHand.remove(typeCardArray.get(selectCard));
-        if (!playerSlots[buildChoice].name.equals("EMPTY"))
-            playerHand.add(playerSlots[buildChoice]);
-
-
-
+        
 
         playerSlots[buildChoice] = typeCardArray.get(selectCard);
 
@@ -324,12 +331,14 @@ public class Main {
         int catAns;
 
         while (true){
+            //Displays menu
             System.out.println("\t\tPLAYER HAND:" +
                     "\n1.WEAPON | 2.HELMET | 3.ARMOUR");
 
             System.out.println("\nENTER CATEGORY TO ACCESS (NUM): ");
             catAns = scanN.nextInt();
 
+            //Error handling
             if(catAns < 1 || catAns > 3) {
                 System.out.println("ERROR: Please enter a valid input\n\n");
                 continue;
@@ -337,7 +346,7 @@ public class Main {
 
             break;
         }
-
+        //return the answer of what type of card they want to view
         return catAns;
     }
 
