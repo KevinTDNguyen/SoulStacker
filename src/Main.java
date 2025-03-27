@@ -186,24 +186,27 @@ public class Main {
     }
 
     public static void upgradeStats(Shadow player, Card [] playerSlots, int buildChoice){
-        switch (buildChoice-1){
-            case 1:
+        switch (buildChoice){
+            case 0:
                 player.atkDamage = playerSlots[2].stat;
-                System.out.println(playerSlots[2].stat);
                 player.atkDamage += playerSlots[buildChoice].stat;
                 break;
-            case 2:
+
+            case 1:
                 player.atkDamage = playerSlots[1].stat;
                 player.atkDamage+= playerSlots[buildChoice].stat;
                 break;
-            case 3:
+
+            case 2:
                 player.defense = playerSlots[4].stat;
                 player.defense+=playerSlots[buildChoice].stat;
                 break;
-            case 4:
+
+            case 3:
                 player.defense = playerSlots[3].stat;
                 player.defense+=playerSlots[buildChoice].stat;
                 break;
+
             default:
                 System.out.println("Hi");
                 break;
