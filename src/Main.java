@@ -10,6 +10,8 @@ public class Main {
     static ArrayList <Card> berserkerDeck = new ArrayList<>();
     static ArrayList <Card> sorcererDeck = new ArrayList<>();
     static ArrayList <Card> playerDeck = new ArrayList<>();
+    static ArrayList <Card> compDeck = new ArrayList<>();
+    static Card[] compSlots = new Card[4];
     static Card[] playerSlots = new Card[4];
 
     //Initializing Sorcerer Deck
@@ -67,8 +69,8 @@ public class Main {
 
     public static void main(String[] args) {
         //Setting up player and computer objects
-        Shadow player = new Shadow("Kevin", 50, 1, 0,"");
-        Shadow comp = new Shadow("Skeilgodr", 50, 1, 0, "");
+        Shadow player = new Shadow("Kevin", 50, 0, 0,"");
+        Shadow comp = new Shadow("Skeilgodr", 50, 0, 0, "");
 
         //initializes the empty card slots
         Card emptyWeapon = new Card("EMPTY", 0, 0, "WEAPON");
@@ -78,6 +80,11 @@ public class Main {
         init_berserker();
         init_sorcerer();
 
+        ArrayList <Card> compHand = new ArrayList<>();
+        compSlots[0] = emptyWeapon;
+        compSlots[1] = emptyWeapon;
+        compSlots[2] = emptyHelm;
+        compSlots[3] = emptyArmour;
         ArrayList <Card> playerHand = new ArrayList<>();
 
         //Begins the playerDeck with empty cards
@@ -87,11 +94,11 @@ public class Main {
         playerSlots[3] = emptyArmour;
 
         introMenu(player);
-        gamePlay(player, comp, playerHand);
+        gamePlay(player, comp, playerHand, compHand);
 
         //displaySlots(slots);
         while (true) {
-            buildSlot(playerHand);
+            buildSlot(player, playerHand);
         }
     }
 
@@ -138,7 +145,7 @@ public class Main {
 
             System.out.println("ERROR: Input a valid input");
         }
-        clearScreen();
+        //clearScreen();
 
     }
 
@@ -163,7 +170,6 @@ public class Main {
             int index = (int)(0+Math.random() * playerDeck.size());
             hand.add(playerDeck.get(index));
             playerDeck.remove(index);
-
         }
 
     }
@@ -175,7 +181,37 @@ public class Main {
         }
     }
 
-    public static void gamePlay(Shadow player, Shadow comp, ArrayList <Card> playerHand) {
+    public static void displayStats(Shadow player){
+        System.out.println(player.playerClass + " | " + player.name + " | " + "Health: " + player.hp + " | " + "Attack: " + player.atkDamage + " | " + "Defense: " + player.defense + " | ");
+    }
+
+    public static void upgradeStats(Shadow player, Card [] playerSlots, int buildChoice){
+        switch (buildChoice-1){
+            case 1:
+                player.atkDamage = playerSlots[2].stat;
+                System.out.println(playerSlots[2].stat);
+                player.atkDamage += playerSlots[buildChoice].stat;
+                break;
+            case 2:
+                player.atkDamage = playerSlots[1].stat;
+                player.atkDamage+= playerSlots[buildChoice].stat;
+                break;
+            case 3:
+                player.defense = playerSlots[4].stat;
+                player.defense+=playerSlots[buildChoice].stat;
+                break;
+            case 4:
+                player.defense = playerSlots[3].stat;
+                player.defense+=playerSlots[buildChoice].stat;
+                break;
+            default:
+                System.out.println("Hi");
+                break;
+        }
+        displayStats(player);
+    }
+
+    public static void gamePlay(Shadow player, Shadow comp, ArrayList <Card> playerHand, ArrayList <Card> compHand) {
         System.out.println("-----------------------------------------------------------------------------------");
         System.out.print("What is your name?: ");
         player.name = scanS.nextLine();
@@ -188,27 +224,32 @@ public class Main {
 
         } while (!player.playerClass.equalsIgnoreCase("berserker") && !player.playerClass.equalsIgnoreCase("sorcerer"));
 
-        if (player.playerClass.equalsIgnoreCase("berserker"))
+        if (player.playerClass.equalsIgnoreCase("berserker")){
             playerDeck = berserkerDeck;
-
-        else
+            compDeck = sorcererDeck;
+        }
+        else{
             playerDeck = sorcererDeck;
+            compDeck = berserkerDeck;
+        }
 
         clearScreen();
 
         // Drawing the first 4 cards.
-        System.out.println("DRAWING FIRST 4 CARDS!\n");
+        System.out.println("DRAWING YOUR FIRST 4 CARDS!\n");
         System.out.format("%-20s %-2s %-15s %-2s %-15s %-2s %-15s", "NAME", "|", "RANK", "|", "STAT", "|", "CARD-TYPE");
         for (int i = 0; i < 4; i++) {
             //To Add Animation=> Thread.sleep(80);
+            drawCard(compHand, compDeck);
             drawCard(playerHand, playerDeck);
             System.out.println();
             System.out.format("%-20s %-2s %-15s %-2s %-15s %-2s %-15s", playerHand.get(i).name, "|", playerHand.get(i).rank, "|", playerHand.get(i).stat, "|", playerHand.get(i).type);
         }
         System.out.println("\n");
+        displayStats(player);
     }
 
-    public static void buildSlot(ArrayList <Card> playerHand){
+    public static void buildSlot(Shadow player, ArrayList <Card> playerHand){
         int catAns, selectCard, buildChoice; //cat ans is category/type of card answer
         String cardType, statType, returnMenu;
         ArrayList <Card> typeCardArray = new ArrayList<>();
@@ -321,6 +362,8 @@ public class Main {
 
         System.out.println("\nNEW UPGRADED SLOTS:");
         displaySlots(playerSlots);
+        upgradeStats(player, playerSlots, buildChoice);
+
         System.out.print("PRESS ENTER TO CONTINUE");
         returnMenu = scanS.nextLine();
 
@@ -364,18 +407,3 @@ public class Main {
     }
 
 }
-
-/*
-Hand Menu:
-1. Weapons
-2. Helmets
-3. Armour
-
-clearScreen()
-
-[WEAPONS]
--Broadsword (III) [+2 ATK]
--Dagger (I) [+1 ATK]
- */
-
-//(RANK 1)
