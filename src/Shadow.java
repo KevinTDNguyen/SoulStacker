@@ -11,14 +11,4 @@ public class Shadow {
         this.playerClass = playerClass;
     }
 
-    public void takeDamage(Shadow attacker){
-        int damageDealt;
-        damageDealt = attacker.atkDamage - this.defense;
-        if (damageDealt < 0)
-            damageDealt = 1;
-
-        this.hp = damageDealt;
-        System.out.println(attacker.name + " did [" + damageDealt + "] dmg to " + this.name);
-    }
-
 }
