@@ -1,5 +1,5 @@
 public class Card { //This class was made to reduce inefficiences and confusion (all methods shared by all card classes should be created in here)
-    String name, type, typeText;
+    String name, type, description, typeText;
     String[] visual;
     int rank, stat;
     public static final String PURPLE = "\u001B[35m";
@@ -15,13 +15,14 @@ public class Card { //This class was made to reduce inefficiences and confusion 
     The reason i made this is due to the reason stated above, it will be very inefficient to code the same constructor 3 - 4 times for all the card
     types. There will be more explanation on the armour card.
      */
-    public Card(String name, int rank, int stat, String type){
+    public Card(String name, int rank, int stat, String type, String description){
         String centeredNameText, centeredTypeText;
         int namePadding, typePadding;
         this.name = name;
         this.rank = rank;
         this.stat = stat;
         this.type = type;
+        this.description = description;
 
         //10 is the amount of spaces betwen the | | symbols in the card
         namePadding = (10 - this.name.length())/2; //this creates an equal padding for both sides

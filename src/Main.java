@@ -19,14 +19,21 @@ public class Main {
     static ArrayList <Card> sorcererDeck = new ArrayList<>();
     static ArrayList <Card> playerDeck = new ArrayList<>();
     static ArrayList <Card> compDeck = new ArrayList<>();
-    static Card[] compSlots = new Card[4];
-    static Card[] playerSlots = new Card[4];
+    static Card[] compSlots = new Card[5];
+    static Card[] playerSlots = new Card[5];
 
     //Shadow stats and ability trackers
+    static int turn = 0;
+    static int damageDealt;
     static int pBaseDamage = 0;
     static int cBaseDamage = 0;
+    static int pBaseDefense = 0;
+    static int cBaseDefense = 0;
     static boolean trueAim = false;
     static boolean forceField = false;
+    static boolean everGreen = false;
+    //static boolean poison = false;
+    static int poison = 0;
     static int[] abilityHandler = {0, 0, 0, 0 ,0 ,0, 0, 0};
 
 
@@ -34,58 +41,74 @@ public class Main {
     //Initializing Sorcerer Deck
     public static void init_sorcerer(){
         //Weapons
-        sorcererDeck.add(new WeaponCard("Dagger", 1,2, "WEAPON"));
-        sorcererDeck.add(new WeaponCard("Dagger", 1,2, "WEAPON"));
-        sorcererDeck.add(new WeaponCard("Nunchuks", 2,4, "WEAPON"));
-        sorcererDeck.add(new WeaponCard("Nunchuks", 2,4, "WEAPON"));
-        sorcererDeck.add(new WeaponCard("Bo Staff", 3,6, "WEAPON"));
-        sorcererDeck.add(new WeaponCard("Bo Staff", 3,6, "WEAPON"));
-        sorcererDeck.add(new WeaponCard("Iron Claw", 4,9, "WEAPON"));
-        sorcererDeck.add(new WeaponCard("Iron Claw", 4,9, "WEAPON"));
+        sorcererDeck.add(new WeaponCard("Dagger", 1,2, "WEAPON", ""));
+        sorcererDeck.add(new WeaponCard("Dagger", 1,2, "WEAPON", ""));
+        sorcererDeck.add(new WeaponCard("Nunchuks", 2,4, "WEAPON", ""));
+        sorcererDeck.add(new WeaponCard("Nunchuks", 2,4, "WEAPON", ""));
+        sorcererDeck.add(new WeaponCard("Bo Staff", 3,6, "WEAPON", ""));
+        sorcererDeck.add(new WeaponCard("Bo Staff", 3,6, "WEAPON", ""));
+        sorcererDeck.add(new WeaponCard("Iron Claw", 4,9, "WEAPON", ""));
+        sorcererDeck.add(new WeaponCard("Iron Claw", 4,9, "WEAPON", ""));
 
         //Helms
-        sorcererDeck.add(new HelmCard("Brass Helm", 1,2, "HELMET"));
-        sorcererDeck.add(new HelmCard("Brass Helm", 1,2, "HELMET"));
-        sorcererDeck.add(new HelmCard("Snake Mask", 2,4, "HELMET"));
-        sorcererDeck.add(new HelmCard("Snake Mask", 2,4, "HELMET"));
+        sorcererDeck.add(new HelmCard("Brass Helm", 1,2, "HELMET", ""));
+        sorcererDeck.add(new HelmCard("Brass Helm", 1,2, "HELMET", ""));
+        sorcererDeck.add(new HelmCard("Snake Mask", 2,4, "HELMET", ""));
+        sorcererDeck.add(new HelmCard("Snake Mask", 2,4, "HELMET", ""));
+        sorcererDeck.add(new HelmCard("Soul Mask", 3,6, "HELMET", ""));
+
 
         //Armours
-        sorcererDeck.add(new ArmourCard("Robe", 1,1, "ARMOUR"));
-        sorcererDeck.add(new ArmourCard("Robe", 1,1, "ARMOUR"));
-        sorcererDeck.add(new ArmourCard("Old Jacket", 2,4, "ARMOUR"));
-        sorcererDeck.add(new ArmourCard("Old Jacket", 2,4, "ARMOUR"));
-        sorcererDeck.add(new ArmourCard("Fire Cloak", 3,7, "ARMOUR"));
+        sorcererDeck.add(new ArmourCard("Robe", 1,1, "ARMOUR", ""));
+        sorcererDeck.add(new ArmourCard("Robe", 1,1, "ARMOUR", ""));
+        sorcererDeck.add(new ArmourCard("Old Jacket", 2,4, "ARMOUR", ""));
+        sorcererDeck.add(new ArmourCard("Old Jacket", 2,4, "ARMOUR", ""));
+        sorcererDeck.add(new ArmourCard("Fire Cloak", 3,7, "ARMOUR", ""));
 
         //Abilities
-        AbilityCard rage = new AbilityCard("Rage", 4, 0, "Ability");
+        sorcererDeck.add(new AbilityCard("Rest", 1, 1, "ABILITY", "Heal 6"));
+        sorcererDeck.add(new AbilityCard("Rest", 1, 1, "ABILITY", "Heal 6"));
+        sorcererDeck.add(new AbilityCard("True Aim", 1, 1, "ABILITY","Attack on next turn ignores defense"));
+        sorcererDeck.add(new AbilityCard("Poison", 1,2, "ABILITY","Enemy takes 5 damage for next 2 turns"));
+        sorcererDeck.add(new AbilityCard("Poison", 1,2, "ABILITY","Enemy takes 5 damage for next 2 turns"));
+        sorcererDeck.add(new AbilityCard("Barrier", 1, 1, "ABILITY", "Opponent can't attack you next turn."));
+        sorcererDeck.add(new AbilityCard("Barrier", 1, 1, "ABILITY", "Opponent can't attack you next turn."));
+        sorcererDeck.add(new AbilityCard("Barrier", 1, 1, "ABILITY", "Opponent can't attack you next turn."));
     }
 
     //Initializing Berserker Deck
     public  static void init_berserker(){
         //Weapons
-        berserkerDeck.add(new WeaponCard("Hammer", 1, 2, "WEAPON"));
-        berserkerDeck.add(new WeaponCard("Hammer", 1, 2, "WEAPON"));
-        berserkerDeck.add(new WeaponCard("Hammer", 1, 2, "WEAPON"));
-        berserkerDeck.add(new WeaponCard("Hammer", 1, 2, "WEAPON"));
-        berserkerDeck.add(new WeaponCard("Hand-Spike", 2, 4, "WEAPON"));
-        berserkerDeck.add(new WeaponCard("Hand-Spike", 2, 4, "WEAPON"));
-        berserkerDeck.add(new WeaponCard("Hand-Spike", 2, 4, "WEAPON"));
-        berserkerDeck.add(new WeaponCard("Broadsword", 3, 7, "WEAPON"));
-        berserkerDeck.add(new WeaponCard("Broadsword", 3, 7, "WEAPON"));
-        berserkerDeck.add(new WeaponCard("Grimm-Axe", 4, 12, "WEAPON"));
+        berserkerDeck.add(new WeaponCard("Hammer", 1, 2, "WEAPON",""));
+        berserkerDeck.add(new WeaponCard("Hammer", 1, 2, "WEAPON", ""));
+        berserkerDeck.add(new WeaponCard("Hammer", 1, 2, "WEAPON", ""));
+        berserkerDeck.add(new WeaponCard("Hammer", 1, 2, "WEAPON", ""));
+        berserkerDeck.add(new WeaponCard("Hand-Spike", 2, 4, "WEAPON", ""));
+        berserkerDeck.add(new WeaponCard("Hand-Spike", 2, 4, "WEAPON", ""));
+        berserkerDeck.add(new WeaponCard("Hand-Spike", 2, 4, "WEAPON", ""));
+        berserkerDeck.add(new WeaponCard("Broadsword", 3, 7, "WEAPON", ""));
+        berserkerDeck.add(new WeaponCard("Broadsword", 3, 7, "WEAPON", ""));
+        berserkerDeck.add(new WeaponCard("Grimm-Axe", 4, 12, "WEAPON", ""));
         // Helms
-        berserkerDeck.add(new HelmCard("Old Bucket", 1, 1, "HELMET"));
-        berserkerDeck.add(new HelmCard("Old Bucket", 1, 1, "HELMET"));
-        berserkerDeck.add(new HelmCard("New Bucket", 2, 3, "HELMET"));
-        berserkerDeck.add(new HelmCard("New Bucket", 2, 3, "HELMET"));
-        berserkerDeck.add(new HelmCard("Great Helm", 3, 6, "HELMET"));
-        // Armor
-        berserkerDeck.add(new ArmourCard("Rags", 1, 1, "ARMOUR"));
-        berserkerDeck.add(new ArmourCard("Rags", 1, 1, "ARMOUR"));
-        berserkerDeck.add(new ArmourCard("Carapace", 2, 4, "ARMOUR"));
-        berserkerDeck.add(new ArmourCard("Carapace", 2, 4, "ARMOUR"));
-        berserkerDeck.add(new ArmourCard("Chainmail", 4, 7, "ARMOUR"));
-        berserkerDeck.add(new ArmourCard("Berserker", 4, 12, "ARMOUR"));
+        berserkerDeck.add(new HelmCard("Old Bucket", 1, 1, "HELMET", ""));
+        berserkerDeck.add(new HelmCard("Old Bucket", 1, 1, "HELMET", ""));
+        berserkerDeck.add(new HelmCard("New Bucket", 2, 3, "HELMET", ""));
+        berserkerDeck.add(new HelmCard("New Bucket", 2, 3, "HELMET", ""));
+        berserkerDeck.add(new HelmCard("Great Helm", 3, 6, "HELMET", ""));
+        // Armours
+        berserkerDeck.add(new ArmourCard("Rags", 1, 1, "ARMOUR", ""));
+        berserkerDeck.add(new ArmourCard("Rags", 1, 1, "ARMOUR", ""));
+        berserkerDeck.add(new ArmourCard("Carapace", 2, 4, "ARMOUR", ""));
+        berserkerDeck.add(new ArmourCard("Carapace", 2, 4, "ARMOUR", ""));
+        berserkerDeck.add(new ArmourCard("Chainmail", 4, 7, "ARMOUR", ""));
+        berserkerDeck.add(new ArmourCard("Berserker", 4, 12, "ARMOUR", ""));
+
+        //Abilities
+        berserkerDeck.add(new AbilityCard("Rage", 1,1, "ABILITY", "+2 Attack and +1 Defense"));
+        berserkerDeck.add(new AbilityCard("Fire Token", 1, 1, "ABILITY", "+1 Attack"));
+        berserkerDeck.add(new AbilityCard("Fire Token", 1, 1, "ABILITY", "+1 Attack"));
+        berserkerDeck.add(new AbilityCard("Rest", 1, 1, "ABILITY", "Heal 6"));
+        berserkerDeck.add(new AbilityCard("Rest", 1, 1, "ABILITY", "Heal 6"));
     }
 
     public static void main(String[] args) {
@@ -94,9 +117,10 @@ public class Main {
         Shadow comp = new Shadow("Opponent", 50, 1, 0, "");
 
         //initializes the empty card slots
-        Card emptyWeapon = new Card("EMPTY", 0, 0, "WEAPON");
-        Card emptyHelm = new Card("EMPTY", 0, 0, "HELMET");
-        Card emptyArmour = new Card("EMPTY", 0, 0, "ARMOUR");
+        Card emptyWeapon = new Card("EMPTY", 0, 0, "WEAPON", "");
+        Card emptyHelm = new Card("EMPTY", 0, 0, "HELMET", "");
+        Card emptyArmour = new Card("EMPTY", 0, 0, "ARMOUR", "");
+        Card emptyAbility = new Card("EMPTY", 0, 0, "ABILITY", "");
 
         init_berserker();
         init_sorcerer();
@@ -106,13 +130,16 @@ public class Main {
         compSlots[1] = emptyWeapon;
         compSlots[2] = emptyHelm;
         compSlots[3] = emptyArmour;
+        compSlots[4] = emptyAbility;
         ArrayList <Card> playerHand = new ArrayList<>();
 
-        //Begins the playerDeck with empty cards
+        //Begins the playerSlots with empty cards
         playerSlots[0] = emptyWeapon;
         playerSlots[1] = emptyWeapon;
         playerSlots[2] = emptyHelm;
         playerSlots[3] = emptyArmour;
+        playerSlots[4] = emptyAbility;
+
 
         introMenu(player);
         gamePlay(player, comp, playerHand, compHand);
@@ -191,13 +218,14 @@ public class Main {
     }
 
     public static int attack(Shadow player, Shadow comp){
-        int damageDealt = player.atkDamage - comp.defense;
+        damageDealt = player.atkDamage - comp.defense;
         if(forceField){
             System.out.println(GREEN + "User cannot be attacked, due to a Force Field." + RESET);
-        }else{
+        }
+        else{
             if(trueAim) {
                 damageDealt = player.atkDamage;
-                System.out.println(RED + "This attack will ignore defense." + RESET);
+                System.out.println(RED + "The attack on the next turn will ignore defense." + RESET);
             }
             if(damageDealt>0){
                 comp.hp = comp.hp - damageDealt;
@@ -213,7 +241,7 @@ public class Main {
 
     public static void displaySlots(Card[] cards){
         for (int i = 0; i < 7; i++) {
-            System.out.println(cards[0].visual[i] + " " + cards[1].visual[i] + " " + cards[2].visual[i] + " " + cards[3].visual[i]);
+            System.out.println(cards[0].visual[i] + " " + cards[1].visual[i] + " " + cards[2].visual[i] + " " + cards[3].visual[i] + " " + cards[4].visual[i]);
         }
     }
 
@@ -223,12 +251,16 @@ public class Main {
 
     public static void upgradeStats(Shadow player, Card [] playerSlots, int buildChoice){
         int baseDamage;
+        int baseDefense;
         if(player.name.equalsIgnoreCase("Opponent")){
             baseDamage = cBaseDamage;
+            baseDefense = cBaseDefense;
         }
         else {
           baseDamage = pBaseDamage;
+          baseDefense = pBaseDefense;
         }
+
         switch (buildChoice){
             case 0:
                 player.atkDamage = playerSlots[1].stat + baseDamage;
@@ -241,17 +273,18 @@ public class Main {
                 break;
 
             case 2:
-                player.defense = playerSlots[3].stat;
+                player.defense = playerSlots[3].stat + baseDefense;
                 player.defense+=playerSlots[buildChoice].stat;
                 break;
 
             case 3:
-                player.defense = playerSlots[2].stat;
+                player.defense = playerSlots[2].stat + baseDefense;
                 player.defense+=playerSlots[buildChoice].stat;
                 break;
 
             default:
-                System.out.println("Hi");
+                player.atkDamage = playerSlots[0].stat + playerSlots[1].stat + baseDamage;
+                player.defense = playerSlots[2].stat + playerSlots[3].stat + baseDefense;
                 break;
         }
         displayStats(player);
@@ -297,7 +330,7 @@ public class Main {
         }
         System.out.println("\n");
         displayStats(player);
-        int turn = 0;
+
         int playChoice = 0;
         while(player.hp > 0 && comp.hp>0){
             playChoice = 0;
@@ -308,11 +341,19 @@ public class Main {
             displayStats(comp);
             displaySlots(playerSlots);
             displayStats(player);
+            if(player.playerClass.equalsIgnoreCase("Sorcerer")){
+                if(forceField){
+                    forceField=false;
+                }
+                poisonAbility(comp, player);
+                everGreenAbility(player);
+            }
             while(playChoice!=1 && playChoice!=2){
                 System.out.println("What do you want to do?\n1. Attack\n2. Draw");
                 playChoice = scanN.nextInt();
                 switch (playChoice){
                     case 1:
+
                         System.out.println(RED + "You dealt " + attack(player, comp) + " damage to the opponent." + RESET);
                         break;
                     case 2:
@@ -328,7 +369,11 @@ public class Main {
                 winMessage(player);
                 break;
             }
+
             buildSlot(player, playerHand);
+            if(trueAim && player.playerClass.equalsIgnoreCase("Sorcerer")){
+                trueAim = false;
+            }
 
             //Comp Part
             System.out.println("OPPONENT TURN\n---------------------------------");
@@ -363,9 +408,15 @@ public class Main {
                     break;
 
                 case 4:
+                    cardType = "ABILITY";
+                    statType = "USE";
+                    break;
+
+                case 5:
                     return -1;
+
             }
-            if(catAns == 4){
+            if(catAns == 5){
                 break;
             }
 
@@ -385,9 +436,15 @@ public class Main {
             }
 
             //Displays Name (Rank) [stat]
-            for (int i = 0; i < typeCardArray.size(); i++)
-                System.out.println((i+1) + ". " + typeCardArray.get(i).name + " (" + convNumtoRoman(typeCardArray.get(i).rank) + ") [" + typeCardArray.get(i).stat + " " + statType + "]");
+            for (int i = 0; i < typeCardArray.size(); i++) {
+                if (typeCardArray.get(i).type.equalsIgnoreCase("ABILITY")) {
+                    System.out.println((i + 1) + ". " + typeCardArray.get(i).name + " (" + convNumtoRoman(typeCardArray.get(i).rank) + ") [" + typeCardArray.get(i).stat + " " + statType + "] " + "Description: " + typeCardArray.get(i).description);
+                }
+                else{
+                    System.out.println((i + 1) + ". " + typeCardArray.get(i).name + " (" + convNumtoRoman(typeCardArray.get(i).rank) + ") [" + typeCardArray.get(i).stat + " " + statType + "]");
+                }
 
+            }
             //Error handling
             while (true){
                 //Gets the card you want to select
@@ -413,7 +470,7 @@ public class Main {
                     buildChoice = scanN.nextInt() - 1; // this will find the index of the card slot you want to upgrade
 
                     //ERROR HANDLING
-                    if (buildChoice < 0 || buildChoice > 3)
+                    if (buildChoice < 0 || buildChoice > 4)
                         System.out.println("ERROR: INPUT VALID RANGE");
 
                     else if(!cardType.equals(playerSlots[buildChoice].type))
@@ -454,6 +511,7 @@ public class Main {
 
 
         playerSlots[buildChoice] = typeCardArray.get(selectCard);
+        abilityHandle(typeCardArray.get(selectCard), player);
 
         System.out.println("\nNEW UPGRADED SLOTS:");
         displaySlots(playerSlots);
@@ -471,13 +529,13 @@ public class Main {
         while (true){
             //Displays menu
             System.out.println("BUILDING MENU:\n\t\tPLAYER HAND:" +
-                    "\n1.WEAPON | 2.HELMET | 3.ARMOUR | 4. DO NOT BUILD");
+                    "\n1.WEAPON | 2.HELMET | 3.ARMOUR | 4.ABILITY | 5.DO NOT BUILD");
 
             System.out.println("\nENTER CATEGORY TO ACCESS (NUM): ");
             catAns = scanN.nextInt();
 
             //Error handling
-            if(catAns < 1 || catAns > 4) {
+            if(catAns < 1 || catAns > 5) {
                 System.out.println("ERROR: Please enter a valid input\n\n");
                 continue;
             }
@@ -504,17 +562,34 @@ public class Main {
         }
     }
 
-    public static void compBuildSlot(Shadow comp, ArrayList<Card> compHand, int slot){
-        Card old = compSlots[2];
-        upgradeStats(comp, compSlots, 2);
-        System.out.println("The opponent upgraded their " + old.name + " to a " + compSlots[2].name);
+    public static void poisonAbility(Shadow enemy, Shadow player){
+        if(player.playerClass.equalsIgnoreCase("Sorcerer") && poison!=0){
+            poison--;
+            enemy.hp-=5;
+            System.out.println(enemy.name + " has lost 5 health to " + RED + "Poison" +RESET);
+        }
+    }
+
+    public static void everGreenAbility(Shadow player){
+        if(everGreen){
+            player.hp+=2;
+            System.out.println(player.name + " healed 2 due to " + GREEN + "Evergreen" + RESET);
+        }
     }
 
     public static void compOpponent(int turn, Card[] compSlots, Shadow player, Shadow comp, ArrayList <Card> compHand){
+        if(comp.playerClass.equalsIgnoreCase("Sorcerer")){
+           if(forceField){
+               forceField=false;
+           }
+           poisonAbility(player, comp);
+           everGreenAbility(comp);
+        }
         boolean build = true;
         System.out.println("----------------------------------------------------------");
         displaySlots(compSlots);
         displaySlots(playerSlots);
+
         //ATTACK OR DRAW
         if(turn<5){
             drawCard(compHand, compDeck);
@@ -522,12 +597,14 @@ public class Main {
         }
         else{
             if(compDeck.isEmpty()){
-                System.out.println(RED + "The opponent dealt " + attack(comp, player) + " damage to you!" + RESET);
+                if(forceField==false){
+                    System.out.println(RED + "The opponent dealt " + attack(comp, player) + " damage to you!" + RESET);
+                }
             }
             else{
                 int[] possibilities = {1, 3, 2, 4, 6, 7, 8, 9, 11};
                 int choiceChance = possibilities[random.nextInt(1, 8)];
-                if(choiceChance%2 == 0){
+                if(choiceChance%2 == 0 && forceField==false){
                     System.out.println(RED + "The opponent dealt " + attack(comp, player) + " damage to you!" + RESET);
                 }
                 else{
@@ -537,7 +614,25 @@ public class Main {
             }
 
         }
+
+        if(trueAim && comp.playerClass.equalsIgnoreCase("Sorcerer")){
+            trueAim = false;
+        }
+
         // BUILDING
+        //ABILITIES
+        for(int i = 0; i<compHand.size(); i++){
+            if(compHand.get(i).type.equalsIgnoreCase("Ability")){
+                abilityHandle((AbilityCard) compHand.get(i), comp);
+                compSlots[4] = compHand.get(i);
+                build = false;
+                compHand.remove(i);
+                upgradeStats(comp, compSlots, 4);
+                break;
+            }
+        }
+
+        //WEAPONS
         if(player.atkDamage > comp.atkDamage && build){
             //Upgrade Weapon;
             for(int i = 0; i<compHand.size(); i++){
@@ -561,6 +656,7 @@ public class Main {
                 }
             }
         }
+        //ARMOUR AND HELMS
         if(player.defense > comp.defense && build){
             //Upgrade Defense
             for(int i = 0; i<compHand.size(); i++){
@@ -596,7 +692,7 @@ public class Main {
         //displayStats(comp);
         //displayStats(player);
 
-        String stop = " ";
+        String stop = "";
 
         while(!stop.equalsIgnoreCase("X")) {
             System.out.print("Press 'X' to continue: ");
@@ -624,7 +720,7 @@ public class Main {
                         "     ||     \n" +
                         "     ||     \n" +
                         "     ||     \n" +
-                        "hjm  ()" + RESET);
+                        "     ()" + RESET);
             }
             else{
                 System.out.println(GREEN + ".---.\n" +
@@ -679,40 +775,76 @@ public class Main {
                 break;
             }
         }
-
-
         return i;
     }
 
-    public static void abilityHandle(AbilityCard abilityCard, Shadow user){
+    public static void abilityHandle(Card abilityCard, Shadow user){
         switch (abilityCard.name){
             case "Rage":
-                abilityCard.ability(user, false);
+                if(user.name.equalsIgnoreCase("Opponent")) {
+                    cBaseDamage += 2;
+                    cBaseDefense++;
+                }
+                else{
+                    pBaseDamage+=2;
+                    pBaseDefense++;
+                }
+                System.out.println(user.name + " increased their damage by 2 and increased their defense by 1 by using " + abilityCard.name);
+                abilityCard.stat-=1;
                 break;
+
             case "Rest":
-                abilityCard.ability(user, false);
+                if(user.hp<=44){
+                    user.hp+=6;
+                    System.out.println(user.name + " healed 6 by using " + abilityCard.name);
+                } else if (user.hp>44) {
+                    user.hp = 50;
+                    System.out.println(user.name + " healed"+ (50- user.hp) +"by using " + abilityCard.name);
+                }
+                abilityCard.stat-=1;
                 break;
+
             case "TrueAim":
-                abilityCard.ability(user, trueAim);
+                abilityCard.stat-=1;
+                trueAim = true;
+                //abilityHandler[0] =
                 //Add Ability Handler
                 break;
+
             case "Fire Token":
-                abilityCard.ability(user, false);
+                if(user.name.equalsIgnoreCase("Opponent")) {
+                    cBaseDamage += 1;
+                }
+                else{
+                    pBaseDamage+=1;
+                }
+                System.out.println(user.name + " increased their damage by 1 by using a " + abilityCard.name);
+                abilityCard.stat-=1;
                 break;
+
             case "Evergreen":
-                abilityCard.ability(user, false);
+                everGreen=true;
+                System.out.println(GREEN + "You will regenerate 2 health each turn" + RESET);
                 break;
+
             case "Poison":
-                abilityCard.ability(user, false);
-                // Add Ability Handler
+                //abilityCard.stat-=1;
+                poison = 2;
                 break;
-            case "Force Field":
-                abilityCard.ability(user, forceField);
-                // Add Ability Handler
-                abilityCard.stat = abilityHandler[setAbilityHandler()];
+
+            case "Barrier":
+                forceField = true;
+                System.out.println(GREEN+"Enemy attack will be blocked next turn."+RESET);
+                abilityCard.stat-=1;
                 break;
         }
     }
+
+    /*public static String abilityDescription(String name, ArrayList<Card> playerHand){
+        for(int i = 0; i<playerHand.size(); i++){
+           // if(playerHand.get(i).)
+        }
+    }*/
 
 
 }
