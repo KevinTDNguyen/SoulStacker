@@ -349,6 +349,8 @@ public class Main {
                 poisonAbility(comp, player);
                 everGreenAbility(player);
             }
+
+
             while(playChoice!=1 && playChoice!=2){
                 System.out.println("What do you want to do?\n1. Attack\n2. Draw");
                 playChoice = scanN.nextInt();
@@ -366,10 +368,7 @@ public class Main {
                         break;
                 }
             }
-            if(player.hp<=0 || comp.hp<=0){
-                winMessage(player);
-                break;
-            }
+
 
             buildSlot(player, playerHand);
             if(trueAim && player.playerClass.equalsIgnoreCase("Sorcerer")){
@@ -379,7 +378,12 @@ public class Main {
             //Comp Part
             System.out.println("OPPONENT TURN\n---------------------------------");
             compOpponent(turn, compSlots, player, comp, compHand);
+
         }
+
+        winMessage(player);
+
+
 
     }
 
@@ -746,13 +750,6 @@ public class Main {
             }
         }
         else {
-            System.out.println("__   _______ _   _   _     _____ _____ _____ _ \n" +
-                    "\\ \\ / /  _  | | | | | |   |  _  /  ___|  ___| |\n" +
-                    " \\ V /| | | | | | | | |   | | | \\ `--.| |__ | |\n" +
-                    "  \\ / | | | | | | | | |   | | | |`--. \\  __|| |\n" +
-                    "  | | \\ \\_/ / |_| | | |___\\ \\_/ /\\__/ / |___|_|\n" +
-                    "  \\_/  \\___/ \\___/  \\_____/\\___/\\____/\\____/(_)");
-            System.out.println();
             System.out.println(RED + "▓██   ██▓ ▒█████   █    ██     ██▓     ▒█████    ██████ ▓█████  ▐██▌\n" +
                     " ▒██  ██▒▒██▒  ██▒ ██  ▓██▒   ▓██▒    ▒██▒  ██▒▒██    ▒ ▓█   ▀  ▐██▌\n" +
                     "  ▒██ ██░▒██░  ██▒▓██  ▒██░   ▒██░    ▒██░  ██▒░ ▓██▄   ▒███    ▐██▌\n" +
