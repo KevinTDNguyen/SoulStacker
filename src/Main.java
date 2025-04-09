@@ -292,6 +292,7 @@ public class Main {
 
     public static void gamePlay(Shadow player, Shadow comp, ArrayList <Card> playerHand, ArrayList <Card> compHand) {
         System.out.println("-----------------------------------------------------------------------------------");
+        System.out.println("-----------------------------------------------------------------------------------");
         System.out.print("What is your name?: ");
         player.name = scanS.nextLine();
         do {
