@@ -693,17 +693,15 @@ public class Main {
         //displayStats(comp);
         //displayStats(player);
 
-        String stop = "";
+        while(true){
+            System.out.println("Press ENTER to continue");
+            if(scanS.nextLine().isBlank())
+                break;
 
-        while(!stop.equalsIgnoreCase("X")) {
-            System.out.print("Press 'X' to continue: ");
-            stop = scanN.nextLine();
-            if (stop.equalsIgnoreCase("x")) {
-                System.out.println("NEXT TURN!");
-            } else {
+            else
                 System.out.println("Incorrect Input. Try Again.");
-            }
         }
+
     }
 
     public static void winMessage(Shadow player){
